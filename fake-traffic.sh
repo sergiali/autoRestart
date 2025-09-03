@@ -1,6 +1,13 @@
 #!/bin/bash
 # /usr/local/bin/fake-traffic.sh
 
+LOG_FILE="/var/log/fake-traffic.log"
+
+# If log file is older than 7 days, truncate it
+if [ -f "$LOG_FILE" ] && [ "$(find "$LOG_FILE" -mtime +2)" ]; then
+    > "$LOG_FILE"
+fi
+
 
 sites=("https://www.google.com" "https://www.wikipedia.org" "https://www.cloudflare.com")
 
@@ -18,6 +25,7 @@ for i in $(seq 1 $count); do
     ping -c 1 8.8.8.8 > /dev/null
 done
 
+echo "$(date '+%Y-%m-%d %H:%M:%S') - Fake traffic executed" >> "$LOG_FILE"
 
-echo "$(date): Fake traffic executed" >> /var/log/fake-traffic.log
+#echo "$(date): Fake traffic executed" >> /var/log/fake-traffic.log
 

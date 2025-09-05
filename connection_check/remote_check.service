@@ -1,0 +1,16 @@
+[Unit]
+Description=Remote Servers Connectivity
+After=network.target
+
+
+[Service]
+ExecStart=/usr/local/bin/ping_check.sh   # or your custom Dir
+Restart=always
+RestartSec=5
+User=root
+StandardOutput=append:/var/log/vpn_check_service.log
+StandardError=append:/var/log/vpn_check_service.log
+
+
+[Install]
+WantedBy=multi-user.target
